@@ -15,8 +15,8 @@
         <h2>Customers</h2>
 
         <h3>List of Customers</h3>
-
-        <table ng-cloak>
+        
+        <table class="table table-striped" ng-cloak>
             <thead>
                 <tr>
                     <th style="display: none;">ID</th>
@@ -25,6 +25,8 @@
                     <th>Address</th>
                     <th>Contact</th>
                     <th>IsActive</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,24 +38,17 @@
                     <td>{{items.Contact}}</td>
                     <td>{{items.IsActive}}</td>
                     <td>
-                        <button ng-model="$scope.Customer"
-                                ng-click="edit(customersData[$index])">
-                            Details
-                        </button>
-                        <button ng-model="$scope.Customer"
+                        <button class="btn btn-success" ng-model="$scope.Customer"
                                 ng-click="edit(customersData[$index])">
                             Edit
                         </button>
-                        <button ng-click="delete($index)">Delete</button>
+                    </td>
+                    <td>
+                        <button  class="btn btn-danger" ng-click="delete($index)">Delete</button>
                     </td>
                 </tr>
             </tbody>
             <tfoot>
-                <tr>
-                    <td colspan="6">
-                        <hr />
-                    </td>
-                </tr>
                 <tr>
                     <td>Total :</td>
                     <td></td>
@@ -64,79 +59,118 @@
                 </tr>
             </tfoot>
         </table>
-        <br />
-        <div style="border-top: solid 2px #282828; width: 430px; height: 10px"> </div>
 
-        <div ng-show="Customer.ID != '' ">
+        <div class="form-horizontal" ng-show="Customer.ID != '' ">
+
             <div>
                 <h2>Update Customer</h2>
             </div>
-            <div hidden="hidden">
-                <label for="id">ID</label>
-                <input type="text" data-ng-model="Customer.ID" />
-            </div>
-            <div>
-                <label for="name">Name</label>
-                <input type="text" data-ng-model="Customer.Name" />
+
+            <div class="form-group" hidden="hidden">
+                <label class = "control-label col-md-2" for="ID">ID</label>
+                <div class="col-md-10">
+                    <input type="text" class = "form-control" data-ng-model="Customer.ID" />
+                </div>
             </div>
 
-            <div>
-                <label for="category">Deatils</label>
-                <input type="text" data-ng-model="Customer.Details" />
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Name">Name</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" data-ng-model="Customer.Name" />
+                </div>
             </div>
 
-            <div>
-                <label for="price">Address</label>
-                <input type="text" data-ng-model="Customer.Address" />
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Details">Details</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" data-ng-model="Customer.Details" />
+                </div>
             </div>
-            <div>
-                <label for="price">Contact</label>
-                <input type="text" data-ng-model="Customer.Contact" />
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Address">Address</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" data-ng-model="Customer.Address" />
+                </div>
             </div>
-            <div>
-                <label for="price">IsActive</label>
-                <input type="checkbox" data-ng-model="Customer.IsActive" />
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Contact">Contact</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" data-ng-model="Customer.Contact" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="IsActive">IsActive</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="checkbox" data-ng-model="Customer.IsActive" />
+                </div>
             </div>
             <br />
-            <div>
-                <button data-ng-click="update()">Update</button>
-                <button data-ng-click="cancel()">Cancel</button>
+            <div class="form-group">
+                <label class="control-label col-md-2"></label>
+                <div class="col-md-4">
+                    <button class="btn btn-lg btn-success " data-ng-click="update()">Update</button>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-lg btn-success " data-ng-click="cancel()">Cancel</button>
+                </div>
             </div>
         </div>
 
-        <div ng-hide="Customer.Customer_Id_Pk != '' ">
+        <div class="form-horizontal" ng-hide="Customer.ID != '' ">
             <div>
-                <h2>Update Customer</h2>
-            </div>
-            <div hidden="hidden">
-                <label for="id">ID</label>
-                <input type="text" data-ng-model="Customer.ID" />
-            </div>
-            <div>
-                <label for="name">Name</label>
-                <input type="text" data-ng-model="Customer.Name" />
+                <h2>Add New Customer</h2>
             </div>
 
-            <div>
-                <label for="category">Deatils</label>
-                <input type="text" data-ng-model="Customer.Details" />
+            <div class="form-group" hidden="hidden">
+                <label class="control-label col-md-2" for="ID">ID</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" data-ng-model="Customer.ID" />
+                </div>
             </div>
 
-            <div>
-                <label for="price">Address</label>
-                <input type="text" data-ng-model="Customer.Address" />
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Name">Name</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" data-ng-model="Customer.Name" />
+                </div>
             </div>
-            <div>
-                <label for="price">Contact</label>
-                <input type="text" data-ng-model="Customer.Contact" />
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Details">Details</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" data-ng-model="Customer.Details" />
+                </div>
             </div>
-            <div>
-                <label for="price">IsActive</label>
-                <input type="checkbox" data-ng-model="Customer.IsActive" />
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Address">Address</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" data-ng-model="Customer.Address" />
+                </div>
             </div>
-            <br />
-            <div>
-                <button data-ng-click="save()">Save</button>
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="Contact">Contact</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" data-ng-model="Customer.Contact" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2" for="IsActive">IsActive</label>
+                <div class="col-md-10">
+                    <input class="form-control" type="checkbox" data-ng-model="Customer.IsActive" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2"></label>
+                <div class="col-md-10">
+                    <button class="btn btn-lg btn-success" data-ng-click="save()">Save</button>
+                </div>
             </div>
         </div>
     </div>

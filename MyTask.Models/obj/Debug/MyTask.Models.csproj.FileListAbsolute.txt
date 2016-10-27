@@ -1,5 +1,0 @@
-E:\Development\Websites\MyMVCAngularTask\MyTask.Models\bin\Debug\MyTask.Models.dll
-E:\Development\Websites\MyMVCAngularTask\MyTask.Models\bin\Debug\MyTask.Models.pdb
-E:\Development\Websites\MyMVCAngularTask\MyTask.Models\obj\Debug\MyTask.Models.csprojResolveAssemblyReference.cache
-E:\Development\Websites\MyMVCAngularTask\MyTask.Models\obj\Debug\MyTask.Models.dll
-E:\Development\Websites\MyMVCAngularTask\MyTask.Models\obj\Debug\MyTask.Models.pdb
