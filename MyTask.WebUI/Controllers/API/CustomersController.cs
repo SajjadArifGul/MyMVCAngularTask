@@ -11,6 +11,7 @@ using System.Web.Http.Description;
 using MyTask.Models;
 using MyTask.WebUI.Models;
 using MyTask.WebUI.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace MyTask.WebUI.Controllers.API
 {
@@ -19,6 +20,7 @@ namespace MyTask.WebUI.Controllers.API
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Customers
+        [HttpGet]
         public IEnumerable<CustomerViewModel> GetCustomers()
         {
             var customers = db.Customers.ToList();
@@ -61,6 +63,7 @@ namespace MyTask.WebUI.Controllers.API
         }
 
         // GET: api/Customers/5
+        [HttpGet]
         [ResponseType(typeof(CustomerViewModel))]
         public IHttpActionResult GetCustomer(int id)
         {
@@ -88,7 +91,6 @@ namespace MyTask.WebUI.Controllers.API
             var customerNumberDetails = new List<string>();
             var customerNumberValues = new List<string>();
 
-
             foreach (var CustomerNumber in customer.CustomerNumbers)
             {
                 customerNumberDetails.Add(CustomerNumber.Customer_Number_Details);
@@ -102,18 +104,28 @@ namespace MyTask.WebUI.Controllers.API
         }
 
         // PUT: api/Customers/5
+        [HttpPut]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCustomer(int id, Customer customer)
+        public IHttpActionResult PutCustomer(int id, CustomerViewModel customerViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != customer.Customer_Id_Pk)
+            if (id != customerViewModel.ID)
             {
                 return BadRequest();
             }
+
+            var customer = db.Customers.Find(customerViewModel.ID);
+            customer.Customer_Name = customerViewModel.Name;
+            customer.Customer_Details = customerViewModel.Details;
+            customer.Customer_Address = customerViewModel.Address;
+            customer.Customer_Contact = customerViewModel.Contact;
+            customer.Is_Active = customerViewModel.IsActive;
+            customer.Modified_By = User.Identity.GetUserName();
+            customer.Modified_On = DateTime.Now;
 
             db.Entry(customer).State = EntityState.Modified;
 
@@ -137,22 +149,52 @@ namespace MyTask.WebUI.Controllers.API
         }
 
         // POST: api/Customers
-        [ResponseType(typeof(Customer))]
-        public IHttpActionResult PostCustomer(Customer customer)
+        [HttpPost]
+        [ResponseType(typeof(CustomerViewModel))]
+        public IHttpActionResult PostCustomer(CustomerViewModel customerViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            //i should do transactions here to make sure all recrrds insserts correctly
+            var customer = new Customer()
+            {
+                Customer_Name = customerViewModel.Name,
+                Customer_Details = customerViewModel.Details,
+                Customer_Address = customerViewModel.Address,
+                Customer_Contact = customerViewModel.Contact,
+                Is_Active = customerViewModel.IsActive,
+                Created_By = User.Identity.GetUserName(),
+                Created_On = DateTime.Now
+            };
+
             db.Customers.Add(customer);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = customer.Customer_Id_Pk }, customer);
+            //adding customer numbers here
+            for (int i = 0; i < customerViewModel.NumberValues.Count; i++)
+            {
+                var customerNumber = new CustomerNumber()
+                {
+                    Customer_Id_Fk = customer.Customer_Id_Pk,
+                    Customer_Number_Details = customerViewModel.NumberDetails[i],
+                    Customer_Number_Value = customerViewModel.NumberValues[i],
+                    Created_By = User.Identity.GetUserName(),
+                    Created_On = DateTime.Now
+                };
+
+                db.CustomerNumbers.Add(customerNumber);
+                db.SaveChanges();
+            }
+
+            return Created(new Uri(Request.RequestUri + "/" + customer.Customer_Id_Pk), customerViewModel);
         }
 
         // DELETE: api/Customers/5
-        [ResponseType(typeof(Customer))]
+        [HttpDelete]
+        [ResponseType(typeof(CustomerViewModel))]
         public IHttpActionResult DeleteCustomer(int id)
         {
             Customer customer = db.Customers.Find(id);
@@ -164,7 +206,7 @@ namespace MyTask.WebUI.Controllers.API
             db.Customers.Remove(customer);
             db.SaveChanges();
 
-            return Ok(customer);
+            return Ok();
         }
 
         protected override void Dispose(bool disposing)
