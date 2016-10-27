@@ -48,6 +48,25 @@
         </div>
 
         <div class="form-group">
+            <label class="control-label col-md-2">Customer Number</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" id="NumberValues" placeholder="NumberValues">
+                <input class="form-control" type="text" id="NumberDetails" placeholder="NumberDetails">
+                <input type="button" class="form-control btn btn-success" id="AddCustomerNumber" value="Add">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Customer Numbers</label>
+            <div class="col-md-10">
+            <table>
+                <tbody>
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
@@ -69,6 +88,31 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
+@section scripts
+{
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+
+            var customerNumberViewModel = {
+                NumberValues: [],
+                NumberDetails: []
+            };
+
+            $("#AddCustomerNumber").click(function () {
+                var numberValues = $("#NumberValues").val();
+                var numberDetails = $("#NumberDetails").val();
+                var markup = "<tr><td>" + numberValues + "</td><td>" + numberDetails + "</td><td><input type='button' class='form-control btn btn-danger delete-row' name='NumberRecord' value='Delete'></td></tr>";
+
+                customerNumberViewModel.NumberValues.push(numberValues);
+                customerNumberViewModel.NumberDetails.push(numberDetails);
+
+                $("table tbody").append(markup);
+            });
+
+            $(".delete-row").click(function () {
+                console.log("enter delete click");
+            });
+        });
+    </script>
 }
