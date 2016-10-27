@@ -16,9 +16,13 @@ namespace MyTask.Models
         public string Customer_Address { get; set; }
         public string Customer_Contact { get; set; }
         public Nullable<int> Customer_Key_Account_Fk { get; set; }
-        public int Created_By { get; set; }
+
+        //changed from Int to String since i want to pass the current loggedin userId here which is by default in string
+        public string Created_By { get; set; }
         public System.DateTime Created_On { get; set; }
-        public Nullable<int> Modified_By { get; set; }
+
+        //changed from Int to String since i want to pass the current loggedin userId here which is by default in string
+        public string Modified_By { get; set; }
         public Nullable<System.DateTime> Modified_On { get; set; }
         public bool Is_Active { get; set; }
 

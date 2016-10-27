@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using MyTask.Models;
 
 namespace MyTask.WebUI.Models
 {
@@ -29,5 +30,8 @@ namespace MyTask.WebUI.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<CustomerNumber> CustomerNumbers { get; set; }
     }
 }

@@ -72,3 +72,8 @@ E:\Development\Websites\MyMVCAngularTask\MyTask.WebUI\bin\Microsoft.Owin.Securit
 E:\Development\Websites\MyMVCAngularTask\MyTask.WebUI\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 E:\Development\Websites\MyMVCAngularTask\MyTask.WebUI\obj\Debug\MyTask.WebUI.dll
 E:\Development\Websites\MyMVCAngularTask\MyTask.WebUI\obj\Debug\MyTask.WebUI.pdb
+E:\Development\Websites\MyMVCAngularTask\MyTask.WebUI\bin\MyTask.Models.dll
+E:\Development\Websites\MyMVCAngularTask\MyTask.WebUI\bin\MyTask.Models.pdb
+E:\Development\Websites\MyMVCAngularTask\MyTask.WebUI\obj\Debug\MyTask.WebUI.csprojResolveAssemblyReference.cache
+E:\Development\Websites\MyMVCAngularTask\MyTask.WebUI\obj\Debug\MyTask.WebUI.Migrations.Init.resources
+E:\Development\Websites\MyMVCAngularTask\MyTask.WebUI\obj\Debug\MyTask.WebUI.csproj.GenerateResource.Cache
