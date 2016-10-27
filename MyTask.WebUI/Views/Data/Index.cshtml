@@ -1,0 +1,143 @@
+﻿
+@{
+    ViewBag.Title = "Customers";
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/myAngularJS")
+    <script src="~/Scripts/Custom/Customers.js"></script>
+}
+
+
+<div ng-app="customerModule" id="body">
+    <div ng-controller="customerCtrl">
+        <h2>Customers</h2>
+
+        <h3>List of Customers</h3>
+
+        <table ng-cloak>
+            <thead>
+                <tr>
+                    <th style="display: none;">ID</th>
+                    <th>Name</th>
+                    <th>Details</th>
+                    <th>Address</th>
+                    <th>Contact</th>
+                    <th>IsActive</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="items in customersData">
+                    <td hidden="hidden">{{items.ID}}</td>
+                    <td>{{items.Name}}</td>
+                    <td>{{items.Details}}</td>
+                    <td>{{items.Address}}</td>
+                    <td>{{items.Contact}}</td>
+                    <td>{{items.IsActive}}</td>
+                    <td>
+                        <button ng-model="$scope.Customer"
+                                ng-click="edit(customersData[$index])">
+                            Details
+                        </button>
+                        <button ng-model="$scope.Customer"
+                                ng-click="edit(customersData[$index])">
+                            Edit
+                        </button>
+                        <button ng-click="delete($index)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <hr />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Total :</td>
+                    <td></td>
+                    <td>
+                        <label ng-bind="total()"></label>
+                    </td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+        <br />
+        <div style="border-top: solid 2px #282828; width: 430px; height: 10px"> </div>
+
+        <div ng-show="Customer.ID != '' ">
+            <div>
+                <h2>Update Customer</h2>
+            </div>
+            <div hidden="hidden">
+                <label for="id">ID</label>
+                <input type="text" data-ng-model="Customer.ID" />
+            </div>
+            <div>
+                <label for="name">Name</label>
+                <input type="text" data-ng-model="Customer.Name" />
+            </div>
+
+            <div>
+                <label for="category">Deatils</label>
+                <input type="text" data-ng-model="Customer.Details" />
+            </div>
+
+            <div>
+                <label for="price">Address</label>
+                <input type="text" data-ng-model="Customer.Address" />
+            </div>
+            <div>
+                <label for="price">Contact</label>
+                <input type="text" data-ng-model="Customer.Contact" />
+            </div>
+            <div>
+                <label for="price">IsActive</label>
+                <input type="checkbox" data-ng-model="Customer.IsActive" />
+            </div>
+            <br />
+            <div>
+                <button data-ng-click="update()">Update</button>
+                <button data-ng-click="cancel()">Cancel</button>
+            </div>
+        </div>
+
+        <div ng-hide="Customer.Customer_Id_Pk != '' ">
+            <div>
+                <h2>Update Customer</h2>
+            </div>
+            <div hidden="hidden">
+                <label for="id">ID</label>
+                <input type="text" data-ng-model="Customer.ID" />
+            </div>
+            <div>
+                <label for="name">Name</label>
+                <input type="text" data-ng-model="Customer.Name" />
+            </div>
+
+            <div>
+                <label for="category">Deatils</label>
+                <input type="text" data-ng-model="Customer.Details" />
+            </div>
+
+            <div>
+                <label for="price">Address</label>
+                <input type="text" data-ng-model="Customer.Address" />
+            </div>
+            <div>
+                <label for="price">Contact</label>
+                <input type="text" data-ng-model="Customer.Contact" />
+            </div>
+            <div>
+                <label for="price">IsActive</label>
+                <input type="checkbox" data-ng-model="Customer.IsActive" />
+            </div>
+            <br />
+            <div>
+                <button data-ng-click="save()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
