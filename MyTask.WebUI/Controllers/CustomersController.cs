@@ -115,7 +115,7 @@ namespace MyTask.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,Details,Address,Contact,IsActive,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn")] CustomerViewModel customerViewModel)
+        public ActionResult Create([Bind(Include = "ID,Name,Details,Address,Contact,IsActive")] CustomerViewModel customerViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -148,11 +148,41 @@ namespace MyTask.WebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CustomerViewModel customerViewModel = db.CustomerViewModels.Find(id);
-            if (customerViewModel == null)
+
+            var customer = db.Customers.Find(id);
+
+            if (customer == null)
             {
                 return HttpNotFound();
             }
+
+            var customerViewModel = new CustomerViewModel()
+            {
+                ID = customer.Customer_Id_Pk,
+                Name = customer.Customer_Name,
+                Details = customer.Customer_Details,
+                Address = customer.Customer_Address,
+                Contact = customer.Customer_Contact,
+                IsActive = customer.Is_Active,
+                CreatedBy = customer.Created_By,
+                CreatedOn = customer.Created_On,
+                ModifiedBy = customer.Modified_By,
+                ModifiedOn = customer.Modified_On
+            };
+
+            var customerNumberDetails = new List<string>();
+            var customerNumberValues = new List<string>();
+
+
+            foreach (var CustomerNumber in customer.CustomerNumbers)
+            {
+                customerNumberDetails.Add(CustomerNumber.Customer_Number_Details);
+                customerNumberValues.Add(CustomerNumber.Customer_Number_Value);
+            }
+
+            customerViewModel.NumberDetails = customerNumberDetails;
+            customerViewModel.NumberValues = customerNumberValues;
+
             return View(customerViewModel);
         }
 
@@ -165,7 +195,16 @@ namespace MyTask.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customerViewModel).State = EntityState.Modified;
+                var customer = db.Customers.Find(customerViewModel.ID);
+                customer.Customer_Name = customerViewModel.Name;
+                customer.Customer_Details = customerViewModel.Details;
+                customer.Customer_Address = customerViewModel.Address;
+                customer.Customer_Contact = customerViewModel.Contact;
+                customer.Is_Active = customerViewModel.IsActive;
+                customer.Modified_By = User.Identity.GetUserName();
+                customer.Modified_On = DateTime.Now;
+
+                db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -179,11 +218,40 @@ namespace MyTask.WebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CustomerViewModel customerViewModel = db.CustomerViewModels.Find(id);
-            if (customerViewModel == null)
+            var customer = db.Customers.Find(id);
+
+            if (customer == null)
             {
                 return HttpNotFound();
             }
+
+            var customerViewModel = new CustomerViewModel()
+            {
+                ID = customer.Customer_Id_Pk,
+                Name = customer.Customer_Name,
+                Details = customer.Customer_Details,
+                Address = customer.Customer_Address,
+                Contact = customer.Customer_Contact,
+                IsActive = customer.Is_Active,
+                CreatedBy = customer.Created_By,
+                CreatedOn = customer.Created_On,
+                ModifiedBy = customer.Modified_By,
+                ModifiedOn = customer.Modified_On
+            };
+
+            var customerNumberDetails = new List<string>();
+            var customerNumberValues = new List<string>();
+
+
+            foreach (var CustomerNumber in customer.CustomerNumbers)
+            {
+                customerNumberDetails.Add(CustomerNumber.Customer_Number_Details);
+                customerNumberValues.Add(CustomerNumber.Customer_Number_Value);
+            }
+
+            customerViewModel.NumberDetails = customerNumberDetails;
+            customerViewModel.NumberValues = customerNumberValues;
+
             return View(customerViewModel);
         }
 
@@ -192,8 +260,9 @@ namespace MyTask.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            CustomerViewModel customerViewModel = db.CustomerViewModels.Find(id);
-            db.CustomerViewModels.Remove(customerViewModel);
+            var customer = db.Customers.Find(id);
+
+            db.Customers.Remove(customer);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
