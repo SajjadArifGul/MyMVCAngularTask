@@ -19,7 +19,6 @@ app.controller('customerCtrl', function ($scope, $http, CustomersService) {
         });
         return total;
     };
-
     $scope.Customer = {
         ID:'',
         Name:'',
@@ -30,7 +29,30 @@ app.controller('customerCtrl', function ($scope, $http, CustomersService) {
         CreatedBy:'',
         CreatedOn:'',
         ModifiedBy:'',
-        ModifiedOn:''
+        ModifiedOn: '',
+
+        //arrays for storing CustomerNumber stuff
+        CustomerNumbers: []
+    };
+
+    $scope.CustomerNumber = {
+        ID:'',
+        NumberValue: '',
+        NumberDetail: ''
+    }
+
+    $scope.removeNumber = function (index) {
+        $scope.Customer.CustomerNumbers.splice(index, 1);
+    };
+
+    $scope.addNumber = function () {
+        console.log('i am inside add number');
+        $scope.Customer.CustomerNumbers.push({
+            ID: 0,
+            NumberValue: '',
+            NumberDetail: ''
+        });
+        console.log('i pushed a new customer number');
     };
 
     // Reset product details
@@ -44,7 +66,9 @@ app.controller('customerCtrl', function ($scope, $http, CustomersService) {
         $scope.Customer.CreatedBy = '',
         $scope.Customer.CreatedOn = '',
         $scope.Customer.ModifiedBy = '',
-        $scope.Customer.ModifiedOn = ''
+        $scope.Customer.ModifiedOn = '',
+
+        $scope.Customer.CustomerNumbers = []
     };
 
     //Add New Item
@@ -79,7 +103,8 @@ app.controller('customerCtrl', function ($scope, $http, CustomersService) {
 
     // Edit product details
     $scope.edit = function (data) {
-        $scope.Customer = { ID: data.ID, Name: data.Name, Details: data.Details, Address: data.Address, Contact: data.Contact };
+        console.log('i am inside edit() + ' + data.CustomerNumbers);
+        $scope.Customer = { ID: data.ID, Name: data.Name, Details: data.Details, Address: data.Address, Contact: data.Contact, CustomerNumbers: data.CustomerNumbers };
     };
 
     // Cancel product details

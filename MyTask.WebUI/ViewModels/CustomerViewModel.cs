@@ -14,13 +14,16 @@ namespace MyTask.WebUI.ViewModels
         public string Details { get; set; }
         public string Address { get; set; }
         public string Contact { get; set; }
-        public List<string> NumberValues { get; set; }
-        public List<string> NumberDetails { get; set; }
+
+        //public List<string> NumberValues { get; set; }
+        //public List<string> NumberDetails { get; set; }
         public bool IsActive { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public string ModifiedBy { get; set; }
         public Nullable<System.DateTime> ModifiedOn { get; set; }
+
+        public List<CustomerNumberViewModel> CustomerNumbers { get; set; }
         
     }
 }

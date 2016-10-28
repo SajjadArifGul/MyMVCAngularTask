@@ -43,18 +43,23 @@ namespace MyTask.WebUI.Controllers.API
                     ModifiedOn = customer.Modified_On
                 };
 
-                var customerNumberDetails = new List<string>();
-                var customerNumberValues = new List<string>();
+                var customerNumberViewModels = new List<CustomerNumberViewModel>();
 
+                var CustomerNumbers = db.CustomerNumbers.Where(c => c.Customer_Id_Fk == customer.Customer_Id_Pk).ToList();
 
-                foreach (var CustomerNumber in customer.CustomerNumbers)
+                foreach (var CustomerNumber in CustomerNumbers)
                 {
-                    customerNumberDetails.Add(CustomerNumber.Customer_Number_Details);
-                    customerNumberValues.Add(CustomerNumber.Customer_Number_Value);
+                    var customerNumberViewModel = new CustomerNumberViewModel()
+                    {
+                        ID = CustomerNumber.Customer_Number_Id_Pk,
+                        NumberValue = CustomerNumber.Customer_Number_Value,
+                        NumberDetail = CustomerNumber.Customer_Number_Details
+                    };
+
+                    customerNumberViewModels.Add(customerNumberViewModel);
                 }
 
-                customerViewModel.NumberDetails = customerNumberDetails;
-                customerViewModel.NumberValues = customerNumberValues;
+                customerViewModel.CustomerNumbers = customerNumberViewModels;
 
                 customersViewModels.Add(customerViewModel);
             }
@@ -88,24 +93,30 @@ namespace MyTask.WebUI.Controllers.API
                 ModifiedOn = customer.Modified_On
             };
 
-            var customerNumberDetails = new List<string>();
-            var customerNumberValues = new List<string>();
+            var customerNumberViewModels = new List<CustomerNumberViewModel>();
 
-            foreach (var CustomerNumber in customer.CustomerNumbers)
+            var CustomerNumbers = db.CustomerNumbers.Where(c => c.Customer_Id_Fk == customer.Customer_Id_Pk).ToList();
+
+            foreach (var CustomerNumber in CustomerNumbers)
             {
-                customerNumberDetails.Add(CustomerNumber.Customer_Number_Details);
-                customerNumberValues.Add(CustomerNumber.Customer_Number_Value);
+                var customerNumberViewModel = new CustomerNumberViewModel()
+                {
+                    ID = CustomerNumber.Customer_Number_Id_Pk,
+                    NumberValue = CustomerNumber.Customer_Number_Value,
+                    NumberDetail = CustomerNumber.Customer_Number_Details
+                };
+
+                customerNumberViewModels.Add(customerNumberViewModel);
             }
 
-            customerViewModel.NumberDetails = customerNumberDetails;
-            customerViewModel.NumberValues = customerNumberValues;
+            customerViewModel.CustomerNumbers = customerNumberViewModels;
 
             return Ok(customerViewModel);
         }
 
         // PUT: api/Customers/5
         [HttpPut]
-        [ResponseType(typeof(void))]
+        [ResponseType(typeof(CustomerViewModel))]
         public IHttpActionResult PutCustomer(int id, CustomerViewModel customerViewModel)
         {
             if (!ModelState.IsValid)
@@ -129,6 +140,18 @@ namespace MyTask.WebUI.Controllers.API
 
             db.Entry(customer).State = EntityState.Modified;
 
+            foreach (var customerNumberViewModel in customerViewModel.CustomerNumbers)
+            {
+                var customerNumber = db.CustomerNumbers.Find(customerNumberViewModel.ID);
+
+                customerNumber.Customer_Number_Details = customerNumberViewModel.NumberDetail;
+                customerNumber.Customer_Number_Value = customerNumberViewModel.NumberValue;
+                customerNumber.Modified_By = User.Identity.GetUserName();
+                customerNumber.Modified_On = DateTime.Now;
+
+                db.Entry(customerNumber).State = EntityState.Modified;
+            }
+
             try
             {
                 db.SaveChanges();
@@ -144,7 +167,7 @@ namespace MyTask.WebUI.Controllers.API
                     throw;
                 }
             }
-
+            
             return StatusCode(HttpStatusCode.NoContent);
         }
 
@@ -153,7 +176,13 @@ namespace MyTask.WebUI.Controllers.API
         [ResponseType(typeof(CustomerViewModel))]
         public IHttpActionResult PostCustomer(CustomerViewModel customerViewModel)
         {
-            if (!ModelState.IsValid)
+            customerViewModel.CreatedOn = DateTime.Now;
+            customerViewModel.CreatedBy = User.Identity.GetUserName();
+
+            //var errors = ModelState.Values.SelectMany(v => v.Errors);
+            //can not apply modelstate.isvalid because it is looking for ID in model & giving error.
+
+            if (string.IsNullOrEmpty(customerViewModel.Name))
             {
                 return BadRequest(ModelState);
             }
@@ -166,24 +195,22 @@ namespace MyTask.WebUI.Controllers.API
                 Customer_Address = customerViewModel.Address,
                 Customer_Contact = customerViewModel.Contact,
                 Is_Active = customerViewModel.IsActive,
-                Created_By = User.Identity.GetUserName(),
-                Created_On = DateTime.Now
+                Created_By = customerViewModel.CreatedBy,
+                Created_On = customerViewModel.CreatedOn
             };
 
             db.Customers.Add(customer);
             db.SaveChanges();
 
             //adding customer numbers here
-            for (int i = 0; i < customerViewModel.NumberValues.Count; i++)
+            foreach (var customerNumberViewModel in customerViewModel.CustomerNumbers)
             {
-                var customerNumber = new CustomerNumber()
-                {
-                    Customer_Id_Fk = customer.Customer_Id_Pk,
-                    Customer_Number_Details = customerViewModel.NumberDetails[i],
-                    Customer_Number_Value = customerViewModel.NumberValues[i],
-                    Created_By = User.Identity.GetUserName(),
-                    Created_On = DateTime.Now
-                };
+                var customerNumber = new CustomerNumber();
+
+                customerNumber.Customer_Number_Details = customerNumberViewModel.NumberDetail;
+                customerNumber.Customer_Number_Value = customerNumberViewModel.NumberValue;
+                customerNumber.Created_By = User.Identity.GetUserName();
+                customerNumber.Created_On = DateTime.Now;
 
                 db.CustomerNumbers.Add(customerNumber);
                 db.SaveChanges();

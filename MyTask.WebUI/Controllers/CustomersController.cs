@@ -50,8 +50,8 @@ namespace MyTask.WebUI.Controllers
                     customerNumberValues.Add(CustomerNumber.Customer_Number_Value);
                 }
 
-                customerViewModel.NumberDetails = customerNumberDetails;
-                customerViewModel.NumberValues = customerNumberValues;
+                //customerViewModel.NumberDetails = customerNumberDetails;
+                //customerViewModel.NumberValues = customerNumberValues;
 
                 customersViewModels.Add(customerViewModel);
             }
@@ -98,8 +98,8 @@ namespace MyTask.WebUI.Controllers
                 customerNumberValues.Add(CustomerNumber.Customer_Number_Value);
             }
 
-            customerViewModel.NumberDetails = customerNumberDetails;
-            customerViewModel.NumberValues = customerNumberValues;
+            //customerViewModel.NumberDetails = customerNumberDetails;
+            //customerViewModel.NumberValues = customerNumberValues;
             
             return View(customerViewModel);
         }
@@ -180,8 +180,8 @@ namespace MyTask.WebUI.Controllers
                 customerNumberValues.Add(CustomerNumber.Customer_Number_Value);
             }
 
-            customerViewModel.NumberDetails = customerNumberDetails;
-            customerViewModel.NumberValues = customerNumberValues;
+            //customerViewModel.NumberDetails = customerNumberDetails;
+            //customerViewModel.NumberValues = customerNumberValues;
 
             return View(customerViewModel);
         }
@@ -249,8 +249,8 @@ namespace MyTask.WebUI.Controllers
                 customerNumberValues.Add(CustomerNumber.Customer_Number_Value);
             }
 
-            customerViewModel.NumberDetails = customerNumberDetails;
-            customerViewModel.NumberValues = customerNumberValues;
+            //customerViewModel.NumberDetails = customerNumberDetails;
+            //customerViewModel.NumberValues = customerNumberValues;
 
             return View(customerViewModel);
         }
