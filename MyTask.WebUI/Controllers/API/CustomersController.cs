@@ -207,6 +207,7 @@ namespace MyTask.WebUI.Controllers.API
             {
                 var customerNumber = new CustomerNumber();
 
+                customerNumber.Customer_Id_Fk = customer.Customer_Id_Pk;
                 customerNumber.Customer_Number_Details = customerNumberViewModel.NumberDetail;
                 customerNumber.Customer_Number_Value = customerNumberViewModel.NumberValue;
                 customerNumber.Created_By = User.Identity.GetUserName();

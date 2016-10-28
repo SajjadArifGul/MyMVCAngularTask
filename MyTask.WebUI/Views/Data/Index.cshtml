@@ -208,7 +208,7 @@
                         <tr ng-repeat="CustomerNumber in Customer.CustomerNumbers">
                             <td>
                                 <input name="Customer.CustomerNumbers[{{$index}}].ID"
-                                       value="{{CustomerNumber.ID}}"
+                                       value="{{$index}}"
                                        type="hidden" />
                                 <input name="Customer.CustomerNumbers[{{$index}}].NumberValue"
                                        value="{{CustomerNumber.NumberValue}}"
@@ -223,6 +223,23 @@
                             </td>
                             <td>
                                 <a class="btn btn-danger btn-xs" data-ng-click="removeNumber($index)">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input ng-model="NewNumberValue"
+                                       type="text"
+                                       class="form-control" />
+                            </td>
+                            <td>
+                                <input ng-model="NewNumberDetail"
+                                       type="text"
+                                       class="form-control" />
+                            </td>
+                            <td>
+                                <a class="btn btn-default" data-ng-click="addNewNumber()">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </a>
                             </td>
