@@ -99,6 +99,7 @@
                 </div>
             </div>
 
+
             <div class="form-group">
                 <table class="table table-striped table-bordered">
                     <thead>
@@ -112,7 +113,7 @@
                         <tr ng-repeat="CustomerNumber in Customer.CustomerNumbers">
                             <td>
                                 <input name="Customer.CustomerNumbers[{{$index}}].ID"
-                                       value="{{CustomerNumber.ID}}"
+                                       value="{{$index}}"
                                        type="hidden" />
                                 <input name="Customer.CustomerNumbers[{{$index}}].NumberValue"
                                        value="{{CustomerNumber.NumberValue}}"
@@ -131,9 +132,25 @@
                                 </a>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                <input ng-model="NewNumberValue"
+                                       type="text"
+                                       class="form-control" />
+                            </td>
+                            <td>
+                                <input ng-model="NewNumberDetail"
+                                       type="text"
+                                       class="form-control" />
+                            </td>
+                            <td>
+                                <a class="btn btn-default" data-ng-click="addNewNumber()">
+                                    <i class="glyphicon glyphicon-arrow-left"></i>
+                                </a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
-                <a class="btn btn-default" data-ng-click="addNumber()">Add Number</a>
             </div>
 
             <br />
