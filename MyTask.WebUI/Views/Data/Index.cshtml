@@ -5,51 +5,58 @@
 
 <div ng-app="customerModule" id="body">
     <div ng-controller="customerCtrl">
-        <h2>Customers</h2>
+        <h2>&nbsp;</h2>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading"><h3>Our Customers Data</h3></div>
+            <div class="panel-body">
+                <p>This table is getting data from WebApi using AngularJS. <strong>Total number of Customers are <label ng-bind="total()"></label>.</strong></p>
+            </div>
 
-        <h3>List of Customers</h3>
-        
-        <table class="table table-striped" ng-cloak>
-            <thead>
-                <tr>
-                    <th style="display: none;">ID</th>
-                    <th>Name</th>
-                    <th>Details</th>
-                    <th>Address</th>
-                    <th>Contact</th>
-                    <th>IsActive</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="items in customersData">
-                    <td hidden="hidden">{{items.ID}}</td>
-                    <td>{{items.Name}}</td>
-                    <td>{{items.Details}}</td>
-                    <td>{{items.Address}}</td>
-                    <td>{{items.Contact}}</td>
-                    <td>{{items.IsActive}}</td>
-                    <td>
-                        <button class="btn btn-success" ng-model="$scope.Customer"
-                                ng-click="edit(customersData[$index])">
-                            Edit
-                        </button>
-                    </td>
-                    <td>
-                        <button  class="btn btn-danger" ng-click="delete($index)">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td>Total :</td>
-                    <td>
-                        <label ng-bind="total()"></label>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
+            <!-- Table -->
+
+            <table class="table table-striped" ng-cloak>
+                <thead>
+                    <tr>
+                        <th style="display: none;">ID</th>
+                        <th>Name</th>
+                        <th>Details</th>
+                        <th>Address</th>
+                        <th>Contact</th>
+                        <th>IsActive</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="items in customersData">
+                        <td hidden="hidden">{{items.ID}}</td>
+                        <td>{{items.Name}}</td>
+                        <td>{{items.Details}}</td>
+                        <td>{{items.Address}}</td>
+                        <td>{{items.Contact}}</td>
+                        <td>{{items.IsActive}}</td>
+                        <td>
+                            <button class="btn btn-success" ng-model="$scope.Customer"
+                                    ng-click="edit(customersData[$index])">
+                                Edit
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" ng-click="delete($index)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>Total :</td>
+                        <td>
+                            <label ng-bind="total()"></label>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
 
         <div class="form-horizontal" ng-show="Customer.ID != '' ">
 
