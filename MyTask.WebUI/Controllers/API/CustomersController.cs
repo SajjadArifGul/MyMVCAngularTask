@@ -129,32 +129,53 @@ namespace MyTask.WebUI.Controllers.API
                 return BadRequest();
             }
 
-            var customer = db.Customers.Find(customerViewModel.ID);
-            customer.Customer_Name = customerViewModel.Name;
-            customer.Customer_Details = customerViewModel.Details;
-            customer.Customer_Address = customerViewModel.Address;
-            customer.Customer_Contact = customerViewModel.Contact;
-            customer.Is_Active = customerViewModel.IsActive;
-            customer.Modified_By = User.Identity.GetUserName();
-            customer.Modified_On = DateTime.Now;
-
-            db.Entry(customer).State = EntityState.Modified;
-
-            foreach (var customerNumberViewModel in customerViewModel.CustomerNumbers)
-            {
-                var customerNumber = db.CustomerNumbers.Find(customerNumberViewModel.ID);
-
-                customerNumber.Customer_Number_Details = customerNumberViewModel.NumberDetail;
-                customerNumber.Customer_Number_Value = customerNumberViewModel.NumberValue;
-                customerNumber.Modified_By = User.Identity.GetUserName();
-                customerNumber.Modified_On = DateTime.Now;
-
-                db.Entry(customerNumber).State = EntityState.Modified;
-            }
 
             try
             {
+
+                var customer = db.Customers.Find(customerViewModel.ID);
+                customer.Customer_Name = customerViewModel.Name;
+                customer.Customer_Details = customerViewModel.Details;
+                customer.Customer_Address = customerViewModel.Address;
+                customer.Customer_Contact = customerViewModel.Contact;
+                customer.Is_Active = customerViewModel.IsActive;
+                customer.Modified_By = User.Identity.GetUserName();
+                customer.Modified_On = DateTime.Now;
+
+                db.Entry(customer).State = EntityState.Modified;
+
                 db.SaveChanges();
+
+                foreach (var customerNumberViewModel in customerViewModel.CustomerNumbers)
+                {
+                    var customerNumber = db.CustomerNumbers.Find(customerNumberViewModel.ID);
+
+                    if (customerNumber != null)
+                    {
+                        customerNumber.Customer_Number_Details = customerNumberViewModel.NumberDetail;
+                        customerNumber.Customer_Number_Value = customerNumberViewModel.NumberValue;
+                        customerNumber.Modified_By = User.Identity.GetUserName();
+                        customerNumber.Modified_On = DateTime.Now;
+
+                        db.Entry(customerNumber).State = EntityState.Modified;
+
+                        db.SaveChanges();
+                    }
+                    else if (customerNumber == null)
+                    {
+                        customerNumber = new CustomerNumber();
+
+                        customerNumber.Customer_Id_Fk = customer.Customer_Id_Pk;
+                        customerNumber.Customer_Number_Details = customerNumberViewModel.NumberDetail;
+                        customerNumber.Customer_Number_Value = customerNumberViewModel.NumberValue;
+                        customerNumber.Created_By = User.Identity.GetUserName();
+                        customerNumber.Created_On = DateTime.Now;
+
+                        db.CustomerNumbers.Add(customerNumber);
+
+                        db.SaveChanges();
+                    }
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -167,7 +188,7 @@ namespace MyTask.WebUI.Controllers.API
                     throw;
                 }
             }
-            
+
             return StatusCode(HttpStatusCode.NoContent);
         }
 

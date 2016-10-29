@@ -10,7 +10,7 @@
             <!-- Default panel contents -->
             <div class="panel-heading"><h3>Our Customers Data</h3></div>
             <div class="panel-body">
-                <p>This table is getting data from WebApi using AngularJS. <strong>Total number of Customers are <label ng-bind="total()"></label>.</strong></p>
+                <p>This table is getting data from WebApi using AngularJS. <strong>Total number of Customers are <span ng-bind="total()" class="badge">4</span>.</strong></p>
             </div>
 
             <!-- Table -->
@@ -47,239 +47,237 @@
                         </td>
                     </tr>
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <td>Total :</td>
-                        <td>
-                            <label ng-bind="total()"></label>
-                        </td>
-                    </tr>
-                </tfoot>
             </table>
         </div>
 
-        <div class="form-horizontal" ng-show="Customer.ID != '' ">
+        <div class="panel panel-default" ng-hide="Customer.ID != '' ">
+            <div class="panel-heading"><h3>Add New Customer</h3></div>
+            <div class="panel-body">
+                
+                <div class="form-horizontal">
 
-            <div>
-                <h2>Update Customer</h2>
-            </div>
+                    <div class="form-group" hidden="hidden">
+                        <label class="control-label col-md-2" for="ID">ID</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" data-ng-model="Customer.ID" />
+                        </div>
+                    </div>
 
-            <div class="form-group" hidden="hidden">
-                <label class = "control-label col-md-2" for="ID">ID</label>
-                <div class="col-md-10">
-                    <input type="text" class = "form-control" data-ng-model="Customer.ID" />
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Name">Name</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" data-ng-model="Customer.Name" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="control-label col-md-2" for="Name">Name</label>
-                <div class="col-md-10">
-                    <input type="text" class="form-control" data-ng-model="Customer.Name" />
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Details">Details</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" data-ng-model="Customer.Details" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="control-label col-md-2" for="Details">Details</label>
-                <div class="col-md-10">
-                    <input type="text" class="form-control" data-ng-model="Customer.Details" />
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Address">Address</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" data-ng-model="Customer.Address" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="control-label col-md-2" for="Address">Address</label>
-                <div class="col-md-10">
-                    <input type="text" class="form-control" data-ng-model="Customer.Address" />
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Contact">Contact</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" data-ng-model="Customer.Contact" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="control-label col-md-2" for="Contact">Contact</label>
-                <div class="col-md-10">
-                    <input type="text" class="form-control" data-ng-model="Customer.Contact" />
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="IsActive">IsActive</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="checkbox" data-ng-model="Customer.IsActive" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="control-label col-md-2" for="IsActive">IsActive</label>
-                <div class="col-md-10">
-                    <input class="form-control" type="checkbox" data-ng-model="Customer.IsActive" />
-                </div>
-            </div>
+                    <div class="col-md-6 form-group">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Number Value</th>
+                                    <th>Number Detail</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="CustomerNumber in Customer.CustomerNumbers">
+                                    <td>
+                                        <input name="Customer.CustomerNumbers[{{$index}}].ID"
+                                               value="{{$index}}"
+                                               type="hidden" />
+                                        <input name="Customer.CustomerNumbers[{{$index}}].NumberValue"
+                                               value="{{CustomerNumber.NumberValue}}"
+                                               type="text"
+                                               class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input name="Customer.CustomerNumbers[{{$index}}].NumberDetail"
+                                               value="{{CustomerNumber.NumberDetail}}"
+                                               type="text"
+                                               class="form-control" />
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-danger" data-ng-click="removeNumber($index)">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input ng-model="NewNumberValue"
+                                               type="text"
+                                               class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input ng-model="NewNumberDetail"
+                                               type="text"
+                                               class="form-control" />
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-default" data-ng-click="addNewNumber()">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-
-            <div class="form-group">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Number Value</th>
-                            <th>Number Detail</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="CustomerNumber in Customer.CustomerNumbers">
-                            <td>
-                                <input name="Customer.CustomerNumbers[{{$index}}].ID"
-                                       value="{{$index}}"
-                                       type="hidden" />
-                                <input name="Customer.CustomerNumbers[{{$index}}].NumberValue"
-                                       value="{{CustomerNumber.NumberValue}}"
-                                       type="text"
-                                       class="form-control" />
-                            </td>
-                            <td>
-                                <input name="Customer.CustomerNumbers[{{$index}}].NumberDetail"
-                                       value="{{CustomerNumber.NumberDetail}}"
-                                       type="text"
-                                       class="form-control" />
-                            </td>
-                            <td>
-                                <a class="btn btn-danger btn-xs" data-ng-click="removeNumber($index)">
-                                    <i class="glyphicon glyphicon-remove"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input ng-model="NewNumberValue"
-                                       type="text"
-                                       class="form-control" />
-                            </td>
-                            <td>
-                                <input ng-model="NewNumberDetail"
-                                       type="text"
-                                       class="form-control" />
-                            </td>
-                            <td>
-                                <a class="btn btn-default" data-ng-click="addNewNumber()">
-                                    <i class="glyphicon glyphicon-arrow-left"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <br />
-            <div class="form-group">
-                <label class="control-label col-md-2"></label>
-                <div class="col-md-4">
-                    <button class="btn btn-lg btn-success " data-ng-click="update()">Update</button>
-                </div>
-                <div class="col-md-4">
-                    <button class="btn btn-lg btn-success " data-ng-click="cancel()">Cancel</button>
+                    <div class="form-group">
+                        <label class="control-label col-md-2"></label>
+                        <div class="col-md-10">
+                            <button class="btn btn-lg btn-success" data-ng-click="save()">Save</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="form-horizontal" ng-hide="Customer.ID != '' ">
-            <div>
-                <h2>Add New Customer</h2>
-            </div>
 
-            <div class="form-group" hidden="hidden">
-                <label class="control-label col-md-2" for="ID">ID</label>
-                <div class="col-md-10">
-                    <input type="text" class="form-control" data-ng-model="Customer.ID" />
-                </div>
-            </div>
+        <div class="panel panel-default" ng-show="Customer.ID != '' ">
+            <div class="panel-heading"><h3>Update Customer</h3></div>
+            <div class="panel-body">
 
-            <div class="form-group">
-                <label class="control-label col-md-2" for="Name">Name</label>
-                <div class="col-md-10">
-                    <input type="text" class="form-control" data-ng-model="Customer.Name" />
-                </div>
-            </div>
+                <div class="form-horizontal">
 
-            <div class="form-group">
-                <label class="control-label col-md-2" for="Details">Details</label>
-                <div class="col-md-10">
-                    <input type="text" class="form-control" data-ng-model="Customer.Details" />
-                </div>
-            </div>
+                    <div class="form-group" hidden="hidden">
+                        <label class="control-label col-md-2" for="ID">ID</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" data-ng-model="Customer.ID" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="control-label col-md-2" for="Address">Address</label>
-                <div class="col-md-10">
-                    <input type="text" class="form-control" data-ng-model="Customer.Address" />
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Name">Name</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" data-ng-model="Customer.Name" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="control-label col-md-2" for="Contact">Contact</label>
-                <div class="col-md-10">
-                    <input type="text" class="form-control" data-ng-model="Customer.Contact" />
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Details">Details</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" data-ng-model="Customer.Details" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="control-label col-md-2" for="IsActive">IsActive</label>
-                <div class="col-md-10">
-                    <input class="form-control" type="checkbox" data-ng-model="Customer.IsActive" />
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Address">Address</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" data-ng-model="Customer.Address" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Number Value</th>
-                            <th>Number Detail</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="CustomerNumber in Customer.CustomerNumbers">
-                            <td>
-                                <input name="Customer.CustomerNumbers[{{$index}}].ID"
-                                       value="{{$index}}"
-                                       type="hidden" />
-                                <input name="Customer.CustomerNumbers[{{$index}}].NumberValue"
-                                       value="{{CustomerNumber.NumberValue}}"
-                                       type="text"
-                                       class="form-control" />
-                            </td>
-                            <td>
-                                <input name="Customer.CustomerNumbers[{{$index}}].NumberDetail"
-                                       value="{{CustomerNumber.NumberDetail}}"
-                                       type="text"
-                                       class="form-control" />
-                            </td>
-                            <td>
-                                <a class="btn btn-danger btn-xs" data-ng-click="removeNumber($index)">
-                                    <i class="glyphicon glyphicon-remove"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input ng-model="NewNumberValue"
-                                       type="text"
-                                       class="form-control" />
-                            </td>
-                            <td>
-                                <input ng-model="NewNumberDetail"
-                                       type="text"
-                                       class="form-control" />
-                            </td>
-                            <td>
-                                <a class="btn btn-default" data-ng-click="addNewNumber()">
-                                    <i class="glyphicon glyphicon-remove"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <a class="btn btn-default" data-ng-click="addNumber()">Add Number</a>
-            </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="Contact">Contact</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" data-ng-model="Customer.Contact" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="control-label col-md-2"></label>
-                <div class="col-md-10">
-                    <button class="btn btn-lg btn-success" data-ng-click="save()">Save</button>
+                    <div class="form-group">
+                        <label class="control-label col-md-2" for="IsActive">IsActive</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="checkbox" data-ng-model="Customer.IsActive" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-md-6">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Number Value</th>
+                                    <th>Number Detail</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="CustomerNumber in Customer.CustomerNumbers">
+                                    <td>
+                                        <input name="Customer.CustomerNumbers[{{$index}}].ID"
+                                               value="{{$index}}"
+                                               type="hidden" />
+                                        <input name="Customer.CustomerNumbers[{{$index}}].NumberValue"
+                                               value="{{CustomerNumber.NumberValue}}"
+                                               type="text"
+                                               class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input name="Customer.CustomerNumbers[{{$index}}].NumberDetail"
+                                               value="{{CustomerNumber.NumberDetail}}"
+                                               type="text"
+                                               class="form-control" />
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-danger" data-ng-click="removeNumber($index)">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input ng-model="NewNumberValue"
+                                               type="text"
+                                               class="form-control" />
+                                    </td>
+                                    <td>
+                                        <input ng-model="NewNumberDetail"
+                                               type="text"
+                                               class="form-control" />
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-default" data-ng-click="addNewNumber()">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <br />
+                    <div class="form-group col-md-8">
+                        <label class="control-label col-md-2"></label>
+                        <div class="col-md-4">
+                            <button class="btn btn-lg btn-success " data-ng-click="update()">Update</button>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-lg btn-success " data-ng-click="cancel()">Cancel</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
