@@ -101,8 +101,7 @@ app.controller('customerCtrl', function ($scope, $http, CustomersService) {
         if ($scope.Customer.Name != "" &&
             $scope.Customer.Details != "" &&
             $scope.Customer.Address != "" &&
-            $scope.Customer.Contact != "" &&
-            $scope.Customer.IsActive != "") {
+            $scope.Customer.Contact != "") {
 
             console.log('i am inside save func' + JSON.stringify($scope.Customer));
 

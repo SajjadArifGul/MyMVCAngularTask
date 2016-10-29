@@ -148,7 +148,7 @@ namespace MyTask.WebUI.Controllers.API
 
                 foreach (var customerNumberViewModel in customerViewModel.CustomerNumbers)
                 {
-                    var customerNumber = db.CustomerNumbers.Find(customerNumberViewModel.ID);
+                    var customerNumber = db.CustomerNumbers.Where(c=>c.Customer_Id_Fk == customer.Customer_Id_Pk).Where(n=>n.Customer_Number_Id_Pk== customerNumberViewModel.ID).FirstOrDefault();
 
                     if (customerNumber != null)
                     {
