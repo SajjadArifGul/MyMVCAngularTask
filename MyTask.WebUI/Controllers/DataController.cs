@@ -9,6 +9,7 @@ namespace MyTask.WebUI.Controllers
     public class DataController : Controller
     {
         // GET: Data
+        [Authorize]
         public ActionResult Index()
         {
             return View();
